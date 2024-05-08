@@ -2,12 +2,12 @@
 
 ## TODO
 
-- [ ] Deploy App on Vercel
-- [ ] Scaffold UI with mock data
-  - [ ] Add Flavor button
-  - [ ] List existing flavors
-  - [ ] Update flavor
-  - [ ] Delete flavor
+- [x] Deploy App on Vercel
+- [x] Scaffold UI with mock data
+  - [x] Add Flavor button
+  - [x] List existing flavors
+  - [x] Update flavor button
+  - [x] Delete flavor button
 - [ ] Set up database with Vercel
 - [ ] Attach database to UI
   - [ ] Create flavor
