@@ -11,7 +11,7 @@
 - [x] Set up database with Vercel
 - [ ] Create database model
 - [ ] Attach database to UI
+  - [x] List all flavors
   - [ ] Create flavor
   - [ ] Update flavor
-  - [ ] List all flavors
-  - [ ] Delete flavor
+  - [x] Delete flavor

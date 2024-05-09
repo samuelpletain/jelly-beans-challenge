@@ -1,3 +1,4 @@
+import { asc, eq } from "drizzle-orm";
 import {
   Table,
   TableCell,
@@ -7,23 +8,16 @@ import {
   TableHeadCell,
   Button,
 } from "flowbite-react";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { db } from "~/server/db";
+import { jellyBeans } from "~/server/db/schema";
 
-const mockJellyBeans = [
-  {
-    id: 1,
-    flavor: "Blueberry",
-  },
-  {
-    id: 2,
-    flavor: "Strawberry",
-  },
-  {
-    id: 3,
-    flavor: "Lemon",
-  },
-];
+export default async function HomePage() {
+  const beans = await db.query.jellyBeans.findMany({
+    orderBy: [asc(jellyBeans.id)],
+  });
 
-export default function HomePage() {
   return (
     <main className="p-12">
       <h1 className="m-12 text-5xl font-extrabold dark:text-white">
@@ -39,20 +33,25 @@ export default function HomePage() {
               <TableHeadCell>Actions</TableHeadCell>
             </TableHead>
             <TableBody>
-              {mockJellyBeans.map((jellyBean) => (
-                <TableRow
-                  key={jellyBean.id}
-                  className="border-b odd:bg-white even:bg-gray-50 dark:border-gray-700 odd:dark:bg-gray-900 even:dark:bg-gray-800"
-                >
+              {beans.map((jellyBean) => (
+                <TableRow key={jellyBean.id}>
                   <TableCell>{jellyBean.id}</TableCell>
                   <TableCell>{jellyBean.flavor}</TableCell>
                   <TableCell className="flex gap-2">
                     <Button color="blue" pill>
                       Edit
                     </Button>
-                    <Button color="failure" pill>
-                      Delete
-                    </Button>
+                    <form
+                      action={async () => {
+                        "use server";
+
+                        await deleteJellyBean(jellyBean.id);
+                      }}
+                    >
+                      <Button type="submit" color="failure" pill>
+                        Delete
+                      </Button>
+                    </form>
                   </TableCell>
                 </TableRow>
               ))}
@@ -66,4 +65,9 @@ export default function HomePage() {
       </div>
     </main>
   );
+}
+
+async function deleteJellyBean(id: number) {
+  await db.delete(jellyBeans).where(eq(jellyBeans.id, id));
+  revalidatePath("/");
 }

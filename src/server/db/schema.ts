@@ -16,19 +16,21 @@ import {
  *
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
-export const createTable = pgTableCreator((name) => `jelly-beans-challenge_${name}`);
+export const createTable = pgTableCreator(
+  (name) => `jelly-beans-challenge_${name}`,
+);
 
-export const posts = createTable(
-  "post",
+export const jellyBeans = createTable(
+  "jellyBean",
   {
     id: serial("id").primaryKey(),
-    name: varchar("name", { length: 256 }),
+    flavor: varchar("flavor", { length: 256 }).notNull(),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
     updatedAt: timestamp("updatedAt", { withTimezone: true }),
   },
   (example) => ({
-    nameIndex: index("name_idx").on(example.name),
-  })
+    flavorIndex: index("flavor_idx").on(example.flavor),
+  }),
 );
