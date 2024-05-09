@@ -8,7 +8,8 @@
   - [x] List existing flavors
   - [x] Update flavor button
   - [x] Delete flavor button
-- [ ] Set up database with Vercel
+- [x] Set up database with Vercel
+- [ ] Create database model
 - [ ] Attach database to UI
   - [ ] Create flavor
   - [ ] Update flavor

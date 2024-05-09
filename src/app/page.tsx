@@ -1,6 +1,12 @@
-"use client";
-
-import { Table, Button } from "flowbite-react";
+import {
+  Table,
+  TableCell,
+  TableHead,
+  TableRow,
+  TableBody,
+  TableHeadCell,
+  Button,
+} from "flowbite-react";
 
 const mockJellyBeans = [
   {
@@ -27,30 +33,30 @@ export default function HomePage() {
       <div className="p-8">
         <div className="pb-4">
           <Table>
-            <Table.Head>
-              <Table.HeadCell>#</Table.HeadCell>
-              <Table.HeadCell>Flavor</Table.HeadCell>
-              <Table.HeadCell>Actions</Table.HeadCell>
-            </Table.Head>
-            <Table.Body>
+            <TableHead>
+              <TableHeadCell>#</TableHeadCell>
+              <TableHeadCell>Flavor</TableHeadCell>
+              <TableHeadCell>Actions</TableHeadCell>
+            </TableHead>
+            <TableBody>
               {mockJellyBeans.map((jellyBean) => (
-                <Table.Row
+                <TableRow
                   key={jellyBean.id}
                   className="border-b odd:bg-white even:bg-gray-50 dark:border-gray-700 odd:dark:bg-gray-900 even:dark:bg-gray-800"
                 >
-                  <Table.Cell>{jellyBean.id}</Table.Cell>
-                  <Table.Cell>{jellyBean.flavor}</Table.Cell>
-                  <Table.Cell className="flex gap-2">
+                  <TableCell>{jellyBean.id}</TableCell>
+                  <TableCell>{jellyBean.flavor}</TableCell>
+                  <TableCell className="flex gap-2">
                     <Button color="blue" pill>
                       Edit
                     </Button>
                     <Button color="failure" pill>
                       Delete
                     </Button>
-                  </Table.Cell>
-                </Table.Row>
+                  </TableCell>
+                </TableRow>
               ))}
-            </Table.Body>
+            </TableBody>
           </Table>
         </div>
 
