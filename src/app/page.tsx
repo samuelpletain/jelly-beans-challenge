@@ -1,16 +1,22 @@
-import { asc, eq } from "drizzle-orm";
+import { asc } from "drizzle-orm";
+import Link from "next/link";
+import { MdDelete, MdModeEdit, MdOutlineAdd } from "react-icons/md";
+import { Button } from "~/components/ui/button";
+import { Card, CardFooter, CardHeader, CardTitle } from "~/components/ui/card";
 import {
-  Table,
-  TableCell,
-  TableHead,
-  TableRow,
-  TableBody,
-  TableHeadCell,
-  Button,
-} from "flowbite-react";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "~/components/ui/dialog";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
 import { db } from "~/server/db";
+import { addJellyBean, deleteJellyBean } from "~/server/db/actions";
 import { jellyBeans } from "~/server/db/schema";
 
 export default async function HomePage() {
@@ -20,54 +26,82 @@ export default async function HomePage() {
 
   return (
     <main className="p-12">
-      <h1 className="m-12 text-5xl font-extrabold dark:text-white">
-        Jelly Beans Admin Panel
-      </h1>
+      <div className="flex flex-wrap justify-between gap-4">
+        <h1 className="text-5xl font-extrabold dark:text-white">
+          Jelly Beans Flavors
+        </h1>
+        <Dialog>
+          <DialogTrigger>
+            <Button variant="outline" className="text-2xl">
+              <MdOutlineAdd className="mr-2 h-4 w-4" />
+              Add Flavor
+            </Button>
+          </DialogTrigger>
 
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Add New Flavor</DialogTitle>
+              <DialogDescription>
+                Add a new flavor to the Jelly Beans selection.
+              </DialogDescription>
+            </DialogHeader>
+            <form action={addJellyBean}>
+              <div className="grid gap-4 py-4">
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="flavor" className="text-right">
+                    Flavor
+                  </Label>
+                  <Input
+                    id="flavor"
+                    name="flavor"
+                    placeholder="Strawberry"
+                    className="col-span-3"
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button type="submit">
+                    <MdOutlineAdd className="mr-2 h-4 w-4" />
+                    Add
+                  </Button>
+                </DialogClose>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
+      </div>
       <div className="p-8">
-        <div className="pb-4">
-          <Table>
-            <TableHead>
-              <TableHeadCell>#</TableHeadCell>
-              <TableHeadCell>Flavor</TableHeadCell>
-              <TableHeadCell>Actions</TableHeadCell>
-            </TableHead>
-            <TableBody>
-              {beans.map((jellyBean) => (
-                <TableRow key={jellyBean.id}>
-                  <TableCell>{jellyBean.id}</TableCell>
-                  <TableCell>{jellyBean.flavor}</TableCell>
-                  <TableCell className="flex gap-2">
-                    <Button color="blue" pill>
-                      Edit
-                    </Button>
-                    <form
-                      action={async () => {
-                        "use server";
+        <div className="flex flex-wrap gap-4 pb-4">
+          {beans.map((jellyBean) => (
+            <Card key={jellyBean.id}>
+              <CardHeader className="flex">
+                <CardTitle>{jellyBean.flavor}</CardTitle>
+              </CardHeader>
+              <CardFooter className="flex justify-end gap-2">
+                <Link href={`/bean/${jellyBean.id}`}>
+                  <Button variant="outline">
+                    <MdModeEdit className="mr-2 h-4 w-4" />
+                    Edit
+                  </Button>
+                </Link>
+                <form
+                  action={async () => {
+                    "use server";
 
-                        await deleteJellyBean(jellyBean.id);
-                      }}
-                    >
-                      <Button type="submit" color="failure" pill>
-                        Delete
-                      </Button>
-                    </form>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+                    await deleteJellyBean(jellyBean.id);
+                  }}
+                >
+                  <Button type="submit" variant="destructive">
+                    <MdDelete className="mr-2 h-4 w-4" />
+                    Delete
+                  </Button>
+                </form>
+              </CardFooter>
+            </Card>
+          ))}
         </div>
-
-        <Button color="success" pill>
-          Add New Flavor
-        </Button>
       </div>
     </main>
   );
-}
-
-async function deleteJellyBean(id: number) {
-  await db.delete(jellyBeans).where(eq(jellyBeans.id, id));
-  revalidatePath("/");
 }

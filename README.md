@@ -10,8 +10,8 @@
   - [x] Delete flavor button
 - [x] Set up database with Vercel
 - [x] Create database model
-- [ ] Attach database to UI
+- [x] Attach database to UI
   - [x] List all flavors
-  - [ ] Create flavor
-  - [ ] Update flavor
+  - [x] Create flavor
+  - [x] Update flavor
   - [x] Delete flavor
