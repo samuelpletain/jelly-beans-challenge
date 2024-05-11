@@ -31,7 +31,7 @@ export default async function HomePage() {
           Jelly Beans Flavors
         </h1>
         <Dialog>
-          <DialogTrigger>
+          <DialogTrigger asChild>
             <Button variant="outline" className="text-2xl">
               <MdOutlineAdd className="mr-2 h-4 w-4" />
               Add Flavor
