@@ -22,7 +22,10 @@ export default function BeanForm({
   };
 
   return (
-    <form action={editJellyBean}>
+    <form
+      action={editJellyBean}
+      className="mx-auto flex max-w-[600px] flex-col gap-4 px-8"
+    >
       <Input
         id="id"
         name="id"
@@ -31,17 +34,21 @@ export default function BeanForm({
         type="number"
         className="hidden"
       />
-      <Label htmlFor="flavor">Flavor</Label>
-      <Input
-        id="flavor"
-        name="flavor"
-        value={currentFlavor}
-        onChange={handleChange}
-      />
-      <Button type="submit">
-        <MdSave className="mr-2 h-4 w-4" />
-        Save
-      </Button>
+      <div>
+        <Label htmlFor="flavor">Flavor</Label>
+        <Input
+          id="flavor"
+          name="flavor"
+          value={currentFlavor}
+          onChange={handleChange}
+        />
+      </div>
+      <div className="flex justify-end">
+        <Button type="submit" className="w-fit">
+          <MdSave className="mr-2 h-4 w-4" />
+          Save
+        </Button>
+      </div>
     </form>
   );
 }

@@ -4,6 +4,12 @@ import { jellyBeans } from "~/server/db/schema";
 import EditBeanForm from "~/components/EditBeanForm";
 import { editJellyBean } from "~/server/db/actions";
 
+export const metadata = {
+  title: "Edit Jelly Bean Flavor",
+  description: "A place to edit a Jelly Beans flavor.",
+  icons: [{ rel: "icon", url: "/favicon.ico" }],
+};
+
 export default async function BeanPage({ params }: { params: { id: string } }) {
   const bean: {
     id: number;
@@ -15,8 +21,10 @@ export default async function BeanPage({ params }: { params: { id: string } }) {
   });
 
   return (
-    <div>
-      <h1>{bean[0]?.flavor ?? "Loading..."}</h1>
+    <main>
+      <h1 className="mb-8 text-5xl font-extrabold dark:text-white">
+        {"Edit Jelly Bean Flavor" ?? "This Jelly Bean does not exists yet..."}
+      </h1>
       {bean[0] && (
         <EditBeanForm
           flavor={bean[0]?.flavor}
@@ -24,6 +32,6 @@ export default async function BeanPage({ params }: { params: { id: string } }) {
           editJellyBean={editJellyBean}
         />
       )}
-    </div>
+    </main>
   );
 }

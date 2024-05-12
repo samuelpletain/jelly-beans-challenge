@@ -25,15 +25,15 @@ export default async function HomePage() {
   });
 
   return (
-    <main className="p-12">
-      <div className="flex flex-wrap justify-between gap-4">
+    <>
+      <div className="mb-8 flex flex-wrap justify-between gap-4">
         <h1 className="text-5xl font-extrabold dark:text-white">
           Jelly Beans Flavors
         </h1>
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant="outline" className="text-2xl">
-              <MdOutlineAdd className="mr-2 h-4 w-4" />
+            <Button className="text-xl">
+              <MdOutlineAdd size={70} className="mr-2 h-4 w-4" />
               Add Flavor
             </Button>
           </DialogTrigger>
@@ -102,6 +102,6 @@ export default async function HomePage() {
           ))}
         </div>
       </div>
-    </main>
+    </>
   );
 }
